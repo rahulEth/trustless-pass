@@ -1,6 +1,6 @@
-import { AccountBalanceWallet, Menu } from "@mui/icons-material";
+import { Menu } from "@mui/icons-material";
 import { useState } from "react";
-import CustomButton from "../CustomButton";
+import ConnectWallet from "../ConnectWallet";
 
 interface HeaderProps {
   className?: string;
@@ -38,9 +38,7 @@ const Header = ({ className = "" }: HeaderProps) => {
           </button>
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <CustomButton startIcon={<AccountBalanceWallet />}>
-            Connect Wallet
-          </CustomButton>
+          <ConnectWallet />
         </div>
         {/* TODO: create menu for mobile view */}
       </nav>
