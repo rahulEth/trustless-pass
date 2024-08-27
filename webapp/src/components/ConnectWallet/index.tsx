@@ -1,9 +1,12 @@
 import { AccountBalanceWallet } from "@mui/icons-material";
 import useConnectWallet from "../../hooks/useConnectWallet";
 import CustomButton from "../CustomButton";
+import { getMaskedAddress } from "../../utils";
 
 const ConnectWallet = () => {
   const { connect, account, isLoading } = useConnectWallet();
+
+  console.log("account: ", account);
 
   return (
     <>
@@ -19,7 +22,3 @@ const ConnectWallet = () => {
 };
 
 export default ConnectWallet;
-
-const getMaskedAddress = (address: string) => {
-  return `${address.substring(0, 6)}...${address.substring(38)}`;
-};
