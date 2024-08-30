@@ -6,5 +6,16 @@
   "action": {
     "default_popup": "index.html",
     "default_icon": "trust-pass.png"
+  },
+  "icons": {
+    "16": "trust-pass-16.png",
+    "32": "trust-pass-32.png",
+    "48": "trust-pass-48.png",
+    "128": "trust-pass-128.png"
+  },
+  "permissions": ["activeTab", "scripting"],
+  "externally_connectable": {
+    "matches": ["https://metamask.io/*"],
+    "ids": ["*"]
   }
 }
