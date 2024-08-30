@@ -1,9 +1,9 @@
 import { Search } from "@mui/icons-material";
 import { IconButton, TextField } from "@mui/material";
 
-const SearchForm = () => {
+const SearchForm = ({ className = "" }: { className?: string }) => {
   return (
-    <div className="flex flex-row items-end gap-2">
+    <div className={`flex flex-row items-end gap-2 ${className}`}>
       <TextField
         id="search"
         label="Search"

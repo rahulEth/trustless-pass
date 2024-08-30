@@ -4,11 +4,12 @@ import PasswordInput from "../../components/PasswordInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigate } from "react-router-dom";
 import { ROUTING_PATH } from "../../constants";
+import MainBody from "../../components/MainBody";
 
 const SaveCredentials = () => {
   const navigate = useNavigate();
   return (
-    <div className="col-span-full md:col-start-5 md:col-span-4">
+    <MainBody>
       <h1 className="text-2xl font-semibold mb-4">Save Your Credentials</h1>
       <Card className="p-6 rounded-lg border border-sky-500">
         <div className="flex flex-col gap-4">
@@ -49,7 +50,7 @@ const SaveCredentials = () => {
           </CustomButton>
         </div>
       </Card>
-    </div>
+    </MainBody>
   );
 };
 

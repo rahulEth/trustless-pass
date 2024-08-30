@@ -15,7 +15,7 @@ const Header = ({ className = "" }: HeaderProps) => {
     <header className={`bg-gray-50 border rounded-b-md ${className}`}>
       <nav
         aria-label="Global"
-        className="mx-auto flex items-center justify-between px-6 py-4 lg:px-8"
+        className="mx-auto max-w-screen-xl flex items-center justify-between px-6 py-4 lg:px-8"
       >
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">

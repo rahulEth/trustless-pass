@@ -9,7 +9,7 @@ const Footer = ({ className = "" }: FooterProps) => {
     <footer
       className={`bg-slate-900 border rounded border-slate-200 ${className}`}
     >
-      <div className="flex flex-col md:flex-row items-center justify-between px-6 py-12 lg:px-8 text-gray-300 gap-2">
+      <div className="mx-auto max-w-screen-xl flex flex-col md:flex-row items-center justify-between px-6 py-12 lg:px-8 text-gray-300 gap-2">
         <div className="flex gap-1 items-center justify-start lg:justify-end order-1 md:order-2">
           <GitHubIcon color="primary" sx={{ color: "slategray" }} />
         </div>
