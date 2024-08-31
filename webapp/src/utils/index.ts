@@ -1,14 +1,18 @@
+import { BrowserProvider } from "ethers";
 import { Eip1193Provider } from "ethers";
 import { ethers } from "ethers";
 
-export const getSignerDetails = async (ethereum: Eip1193Provider) => {
-  const provider = new ethers.BrowserProvider(ethereum);
+export const getBowserProvider = (ethereum: Eip1193Provider) => {
+  return new ethers.BrowserProvider(ethereum);
+};
+
+export const getSignerDetails = async (provider: BrowserProvider) => {
   const signer = await provider.getSigner();
   return signer;
 };
 
-export const getConnectedAccountAddress = async (ethereum: Eip1193Provider) => {
-  const signer = await getSignerDetails(ethereum);
+export const getConnectedAccountAddress = async (provider: BrowserProvider) => {
+  const signer = await getSignerDetails(provider);
   const accountAddress = await signer.getAddress();
   return accountAddress;
 };

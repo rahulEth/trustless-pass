@@ -3,18 +3,36 @@ import { Card } from "@mui/material";
 import SecurityFlag from "./assets/security-flag.svg?react";
 import { useNavigate } from "react-router-dom";
 import { ROUTING_PATH } from "../../constants";
+import ConnectWalletModal from "../../components/ConnectWalletModal";
+import { useContext } from "react";
+import { Web3ProviderContext } from "../../contexts/Web3Context";
+import useModal from "../../hooks/useModal";
 
 const Home = () => {
   const navigate = useNavigate();
+  const { account } = useContext(Web3ProviderContext) || {};
+  const { open, handleOpen, handleClose } = useModal();
 
   const onClickSaveCredentials = () => {
-    // TODO: Check login, if not show pop up
+    if (!account) {
+      console.log("trigger open");
+
+      handleOpen();
+      return;
+    }
     navigate(ROUTING_PATH.SAVE_CREDS);
   };
+
   const onClickCheckCredentials = () => {
-    // TODO: Check login, if not show pop up
+    if (!account) {
+      console.log("trigger open");
+
+      handleOpen();
+      return;
+    }
     navigate(ROUTING_PATH.CHECK_CREDS);
   };
+
   return (
     <div className="col-span-full flex flex-col gap-6">
       <div className="flex flex-col md:flex-row items-stretch bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% !text-white rounded-xl">
@@ -40,6 +58,7 @@ const Home = () => {
           Save Your Credentials
         </Card>
       </div>
+      <ConnectWalletModal open={open} handleClose={handleClose} />
     </div>
   );
 };

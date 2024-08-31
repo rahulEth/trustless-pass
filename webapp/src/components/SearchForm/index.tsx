@@ -1,51 +1,85 @@
 import { Search } from "@mui/icons-material";
 import {
   FormControl,
+  FormHelperText,
   IconButton,
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { CredType } from "../../enums/CredTypeEnums";
 
-const SearchForm = ({ className = "" }: { className?: string }) => {
-  const [type, setType] = useState("all");
+export interface SearchFormProps {
+  type: CredType | "all";
+  search: string;
+}
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setType(event.target.value);
+const SearchForm = ({ className = "" }: { className?: string }) => {
+  const { control, handleSubmit } = useForm<SearchFormProps>({
+    defaultValues: {
+      type: undefined,
+      search: "",
+    },
+  });
+
+  const onSubmit = (data: SearchFormProps) => {
+    console.log("submitted data: ", data);
   };
 
   return (
-    <div className={`flex flex-row items-end gap-2 ${className}`}>
-      <FormControl variant="standard" sx={{ minWidth: 120 }}>
-        <InputLabel id="type-label">Type</InputLabel>
-        <Select
-          labelId="type-label"
-          id="type"
-          value={type}
-          onChange={handleChange}
-          label="type"
-        >
-          <MenuItem value="all">All</MenuItem>
-          <MenuItem value={CredType.SOCIAL}>Social</MenuItem>
-          <MenuItem value={CredType.PERSONAL}>Personal</MenuItem>
-          <MenuItem value={CredType.BANKING}>Banking</MenuItem>
-          <MenuItem value={CredType.OTHER}>Other</MenuItem>
-        </Select>
-      </FormControl>
-      <TextField
-        id="search"
-        label="Search"
-        variant="standard"
-        className="flex-grow"
+    <form
+      className={`flex flex-row items-start gap-2 ${className}`}
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <Controller
+        name="type"
+        control={control}
+        rules={{
+          required: "Required",
+        }}
+        render={({ field, fieldState: { error } }) => (
+          <FormControl
+            variant="standard"
+            sx={{ minWidth: 120 }}
+            error={!!error}
+          >
+            <InputLabel id="type-label">Type</InputLabel>
+            <Select labelId="type-label" id="type" {...field} label="type">
+              <MenuItem value="all">All</MenuItem>
+              <MenuItem value={CredType.SOCIAL}>Social</MenuItem>
+              <MenuItem value={CredType.PERSONAL}>Personal</MenuItem>
+              <MenuItem value={CredType.BANKING}>Banking</MenuItem>
+              <MenuItem value={CredType.OTHER}>Other</MenuItem>
+            </Select>
+            {!!error && <FormHelperText>{error.message}</FormHelperText>}
+          </FormControl>
+        )}
       />
-      <IconButton color="primary" aria-label="search" size="large" className="">
+      <Controller
+        name="search"
+        control={control}
+        render={({ field }) => (
+          <TextField
+            id="search"
+            label="Search"
+            variant="standard"
+            className="flex-grow"
+            {...field}
+          />
+        )}
+      />
+      <IconButton
+        color="primary"
+        aria-label="search"
+        size="large"
+        className=""
+        type="submit"
+      >
         <Search />
       </IconButton>
-    </div>
+    </form>
   );
 };
 

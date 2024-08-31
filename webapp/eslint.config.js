@@ -24,6 +24,7 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       "no-extra-boolean-cast": "off",
+      "typescript-eslint/no-empty-object-type": "off",
     },
   }
 );
