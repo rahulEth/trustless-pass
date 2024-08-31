@@ -1,13 +1,15 @@
-import { Eip1193Provider } from "ethers";
+import { MetaMaskInpageProvider } from "@metamask/providers";
 import { ethers } from "ethers";
 
-export const getSignerDetails = async (ethereum: Eip1193Provider) => {
+export const getSignerDetails = async (ethereum: MetaMaskInpageProvider) => {
   const provider = new ethers.BrowserProvider(ethereum);
   const signer = await provider.getSigner();
   return signer;
 };
 
-export const getConnectedAccountAddress = async (ethereum: Eip1193Provider) => {
+export const getConnectedAccountAddress = async (
+  ethereum: MetaMaskInpageProvider
+) => {
   const signer = await getSignerDetails(ethereum);
   const accountAddress = await signer.getAddress();
   return accountAddress;

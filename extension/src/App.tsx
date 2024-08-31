@@ -1,64 +1,37 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import TrustPass from "/trust-pass.svg";
 import "./App.css";
-import useConnectWallet from "./hooks/useConnectWallet";
-import createMetaMaskProvider from "metamask-extension-provider";
+import {
+  Web3DispatchContext,
+  Web3ProviderContext,
+} from "./contexts/Web3Context";
+import { useContext } from "react";
+import { Alert } from "@mui/material";
+import { getMaskedAddress } from "./utils";
 
 function App() {
-  const { account, isLoading } = useConnectWallet();
+  const { account, isLoading, error } = useContext(Web3ProviderContext) || {};
+  const { connect } = useContext(Web3DispatchContext) || {};
 
   const onClickConnect = async () => {
-    // const [tab] = await chrome.tabs.query({ active: true });
-    const provider = createMetaMaskProvider();
-    if (provider) {
-      console.log("provider detected", provider.chainId);
-      /* const eth = new Eth(provider)
-      renderText('MetaMask provider detected.')
-      eth.accounts()
-      .then((accounts) => {
-        renderText(`Detected MetaMask account ${accounts[0]}`)
-      })
-    
-      provider.on('error', (error) => {
-        if (error && error.includes('lost connection')) {
-          renderText('MetaMask extension not detected.')
-        }
-      }) */
-      provider.on("error", (error) => {
-        console.log(error);
-      });
-    } else {
-      console.log("MetaMask provider not detected.");
-    }
-    /* chrome.scripting.executeScript({
-      target: { tabId: tab.id! },
-      func: async () => {
-        console.log("ethereum: ");
-        console.log("windows:", window);
+    if (!!connect) {
+      console.log("called");
 
-        if ((window as any).ethereum) {
-          try {
-            const accounts = await (window as any).ethereum.request({
-              method: "eth_requestAccounts",
-            });
-            console.log(accounts[0]);
-          } catch (error) {
-            console.error("Connection to MetaMask failed:", error);
-          }
-        } else {
-          alert("Please install MetaMask!");
-        }
-      },
-    }); */
+      await connect();
+    }
   };
 
   return (
     <>
       <div>
-        <img src={TrustPass} className="logo" alt="trust pass logo" />
+        <img src={TrustPass} className="logo mx-auto" alt="trust pass logo" />
       </div>
-      <h1>Trust Pass</h1>
+      <h1 className="text-3xl font-semibold">Trust Pass</h1>
       <div className="card">
+        {!!error && (
+          <Alert severity="error" className="mb-2">
+            {error}
+          </Alert>
+        )}
         <button onClick={() => onClickConnect()} disabled={isLoading}>
           {account ? getMaskedAddress(account) : "Connect Wallet"}
         </button>
@@ -68,7 +41,3 @@ function App() {
 }
 
 export default App;
-
-const getMaskedAddress = (address: string) => {
-  return `${address.substring(0, 6)}...${address.substring(38)}`;
-};
