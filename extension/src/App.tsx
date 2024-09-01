@@ -20,6 +20,11 @@ function App() {
     }
   };
 
+  const onCheckCred = async () => {
+    const [tab] = await chrome.tabs.query({ active: true });
+    console.log("active url: ", tab.url);
+  };
+
   return (
     <>
       <div>
@@ -34,6 +39,9 @@ function App() {
         )}
         <button onClick={() => onClickConnect()} disabled={isLoading}>
           {account ? getMaskedAddress(account) : "Connect Wallet"}
+        </button>
+        <button onClick={() => onCheckCred()} disabled={isLoading}>
+          Check Cred for this Tab
         </button>
       </div>
     </>
