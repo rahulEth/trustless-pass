@@ -1,9 +1,10 @@
 import { Card, IconButton } from "@mui/material";
 import CredIcon from "../CredIcon";
 import { CredType } from "../../enums/CredTypeEnums";
-import { ContentCopy, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
-
+import "./style.css";
+import CopyBtn from "./CopyBtn";
 export interface CredDetails {
   url: string;
   username: string;
@@ -33,11 +34,14 @@ const Field = ({ name, value }: FieldProps) => {
 
 const PasswordField = ({ name, value }: FieldProps) => {
   const [showPwd, setShowPwd] = useState(false);
+
   return (
     <div className="flex flex-col font-medium hover:bg-gray-200 rounded p-2">
       <div className="text-slate-500 text-sm">{name}</div>
       <div className="text-slate-900 text-base flex flex-row gap-1 items-center">
-        <div className="flex-grow">{value}</div>
+        <div className={`flex-grow ${!showPwd ? "password_field" : ""}`}>
+          {value}
+        </div>
         <IconButton onClick={() => setShowPwd(!showPwd)}>
           {!showPwd ? (
             <VisibilityOff className="!h-5 !w-auto" color="action" />
@@ -45,7 +49,7 @@ const PasswordField = ({ name, value }: FieldProps) => {
             <Visibility className="!h-5 !w-auto" color="action" />
           )}
         </IconButton>
-        <ContentCopy className="!h-5 !w-auto" color="action" />
+        <CopyBtn data={value} />
       </div>
     </div>
   );
