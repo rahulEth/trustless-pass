@@ -8,6 +8,7 @@ const {connectToDatabase} = require('./db.js');
 const cors = require('cors');
 const crypto = require('crypto');
 const axios = require('axios');
+const provider = require('./web3.js')
 
 
 // index.js
