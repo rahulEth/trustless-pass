@@ -16,7 +16,7 @@ const CopyBtn = ({ data }: { data: string }) => {
   const onClickCopy = async (data: string) => {
     setCoping(true);
     await writeClipboardText(data);
-    setTimeout(() => setCoping(false), 1000);
+    setTimeout(() => setCoping(false), 500);
   };
 
   return (
