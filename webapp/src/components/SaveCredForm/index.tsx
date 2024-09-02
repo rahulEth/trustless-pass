@@ -22,7 +22,15 @@ export interface SaveCredFormProps {
   type: CredType;
 }
 
-const SaveCredForm = ({ className = "" }: { className?: string }) => {
+const SaveCredForm = ({
+  className = "",
+  onSubmitCred,
+  isLoading,
+}: {
+  className?: string;
+  onSubmitCred?: (data: SaveCredFormProps) => void;
+  isLoading: boolean;
+}) => {
   const navigate = useNavigate();
 
   const { control, handleSubmit } = useForm<SaveCredFormProps>({
@@ -36,6 +44,7 @@ const SaveCredForm = ({ className = "" }: { className?: string }) => {
 
   const onSubmit = (data: SaveCredFormProps) => {
     console.log("Submitted data: ", data);
+    if (!!onSubmitCred) onSubmitCred(data);
   };
   return (
     <form
@@ -149,7 +158,11 @@ const SaveCredForm = ({ className = "" }: { className?: string }) => {
           </FormControl>
         )}
       />
-      <CustomButton className="!rounded-full !text-lg !py-3" type="submit">
+      <CustomButton
+        className="!rounded-full !text-lg !py-3"
+        type="submit"
+        disabled={isLoading}
+      >
         Submit
       </CustomButton>
       <CustomButton
