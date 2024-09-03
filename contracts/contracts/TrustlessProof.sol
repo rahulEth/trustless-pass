@@ -17,7 +17,7 @@ contract TrustlessProof {
     event ProofStored(bytes32 indexed proofId, address indexed owner, string publicKey, string dataHash, uint256 timestamp);
 
     // Function to store a new proof
-    function storeProof(string memory publicKey, string memory dataHash) public {
+    function storeProof(string memory publicKey, address owner, string memory dataHash) public {
         // Generate a unique identifier for the proof
         bytes32 proofId = keccak256(abi.encodePacked(publicKey, dataHash));
 
@@ -26,7 +26,7 @@ contract TrustlessProof {
 
         // Store the proof
         proofs[proofId] = Proof({
-            owner: msg.sender,
+            owner: owner,
             publicKey: publicKey,
             dataHash: dataHash,
             timestamp: block.timestamp

@@ -18,7 +18,9 @@ ignition/deployments/chain-31337
 
 
 package-lock.json
-hardhat.config.js
+.env
+
+
 
 
 artifacts

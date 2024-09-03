@@ -6,7 +6,7 @@ Try running some of the following tasks:
 
 ```shell
 solidity v0.8.13
-create hardat.config.js file and copy past from sample_hardhat.config.js file
+create .env file and copy past .sample_env file
 
 # compile solidity smart contract
 
