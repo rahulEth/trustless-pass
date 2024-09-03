@@ -1,15 +1,25 @@
-import { Menu } from "@mui/icons-material";
+import {
+  Download as DownloadIcon,
+  Menu as MenuIcon,
+} from "@mui/icons-material";
+import { ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import ConnectWallet from "../ConnectWallet";
+import CustomButton from "../CustomButton";
 
 interface HeaderProps {
   className?: string;
 }
 
 const Header = ({ className = "" }: HeaderProps) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  console.log(mobileMenuOpen);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <header className={`bg-gray-50 border rounded-b-md ${className}`}>
@@ -23,20 +33,70 @@ const Header = ({ className = "" }: HeaderProps) => {
             <img alt="" src="trust-pass.svg" className="h-10 w-auto" />
           </a>
         </div>
-        <div className="flex lg:hidden">
+        <div className="flex flex-1 justify-end gap-2">
+          <CustomButton
+            className="!hidden md:!inline-flex"
+            variant="outlined"
+            startIcon={<DownloadIcon />}
+          >
+            Download Extension
+          </CustomButton>
+          <ConnectWallet />
           <button
             type="button"
-            onClick={() => setMobileMenuOpen(true)}
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            onClick={handleClick}
+            className="inline-flex md:hidden -m-2.5  items-center justify-center rounded-md p-2.5 text-gray-700"
           >
             <span className="sr-only">Open main menu</span>
-            <Menu aria-hidden="true" className="h-6 w-6" />
+            <MenuIcon aria-hidden="true" className="h-6 w-6" />
           </button>
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <ConnectWallet />
-        </div>
-        {/* TODO: create menu for mobile view */}
+
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          slotProps={{
+            paper: {
+              elevation: 0,
+              sx: {
+                overflow: "visible",
+                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                mt: 1.5,
+                "& .MuiAvatar-root": {
+                  width: 32,
+                  height: 32,
+                  ml: -0.5,
+                  mr: 1,
+                },
+                "&::before": {
+                  content: '""',
+                  display: "block",
+                  position: "absolute",
+                  top: 0,
+                  right: 14,
+                  width: 10,
+                  height: 10,
+                  bgcolor: "background.paper",
+                  transform: "translateY(-50%) rotate(45deg)",
+                  zIndex: 0,
+                },
+              },
+            },
+          }}
+          transformOrigin={{ horizontal: "right", vertical: "top" }}
+          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        >
+          {/* TODO: to be replaced with extensionn link redirection */}
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <DownloadIcon fontSize="small" />
+            </ListItemIcon>
+            Download Extension
+          </MenuItem>
+        </Menu>
       </nav>
     </header>
   );
