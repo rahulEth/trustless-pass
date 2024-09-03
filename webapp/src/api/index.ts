@@ -2,6 +2,12 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { CredType } from "../enums/CredTypeEnums";
 import { CredDetails } from "../components/CredDetailsCard";
 import { SaveCredFormProps } from "../components/SaveCredForm";
+import axios from "axios";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const apiClient = axios.create({
+  baseURL: "https://jsonplaceholder.typicode.com",
+});
 
 const MOCK_CREDS: CredDetails[] = [
   {
@@ -35,6 +41,9 @@ export const useQueryGetCredentials = () => {
   const isError = false;
   return useQuery({
     queryFn: async () => {
+      const response = await apiClient.get("/posts");
+      console.log("response: ", response.data);
+
       return new Promise<CredDetails[]>((resolve, reject) => {
         setTimeout(
           () => (isError ? reject() : resolve(isEmpty ? [] : MOCK_CREDS)),
