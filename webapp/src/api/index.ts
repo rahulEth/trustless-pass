@@ -3,6 +3,7 @@ import { CredType } from "../enums/CredTypeEnums";
 import { CredDetails } from "../components/CredDetailsCard";
 import { SaveCredFormProps } from "../components/SaveCredForm";
 import axios from "axios";
+import { AES } from "crypto-js";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const apiClient = axios.create({
@@ -66,6 +67,8 @@ export const useMutationSaveCredentials = () => {
   return useMutation({
     mutationFn: (data: SaveCredFormProps) => {
       return new Promise<UseMutationSaveCredentialsRes>((resolve, reject) => {
+        const cipherText = AES.encrypt(data.password, data.username);
+        console.log("cipherText: ", cipherText.toString());
         setTimeout(
           () =>
             isError
