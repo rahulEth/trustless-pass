@@ -26,10 +26,18 @@ const PORT = process.env.PORT || 3000;
 
 // Define a simple route
 app.post('/api/saveCred', (req, res) => {
-    const publicKey = req.body.publicKey;
-    const appLink = req.body.appLink;
     // Encrypt the message with the public key
-    console.log("req.body.publicKey ", req.body.publicKey, req.body.signature)
+    console.log("req.body.publicKey ", req.body.publicKey, req.body.address, req.body.appLink)
+
+    if(!req.body.publicKey || !req.body.address || !req.body.appLink){
+        return res.status(500).send({message: 'publicKey, address or appLink is missing'})
+    }
+
+    console.log("req.body.encryptedUser ", req.body.encryptedUser, req.body.encryptedPassword, req.body.encryptedappLink)
+
+    if(!req.body.encryptedUser || !req.body.encryptedPassword || !req.body.encryptedappLink){
+        return res.status(500).send({message: 'encryptedUser, encryptedPassword or encryptedappLink is missing'})
+    }
     // const key = publicKeyToAesKey(publicKey);
     // const iv = crypto.randomBytes(16); // Initialization vector
     // const cipherUser = crypto.createCipheriv('aes-256-cbc', key, iv);
@@ -49,11 +57,11 @@ app.post('/api/saveCred', (req, res) => {
 
 
     // Encrypt
-    var encryptedUser = CryptoJS.AES.encrypt(req.body.user, req.body.signature).toString();
-    var encryptedPassword = CryptoJS.AES.encrypt(req.body.password, req.body.signature).toString();
-    var encryptedApplink = CryptoJS.AES.encrypt(req.body.appLink, req.body.signature).toString();
+    // var encryptedUser = CryptoJS.AES.encrypt(req.body.user, req.body.signature).toString();
+    // var encryptedPassword = CryptoJS.AES.encrypt(req.body.password, req.body.signature).toString();
+    // var encryptedApplink = CryptoJS.AES.encrypt(req.body.appLink, req.body.signature).toString();
 
-    uploadToIpfs(res, publicKey, req.body.address, encryptedUser, encryptedPassword, encryptedApplink, req.body.appLink)
+    uploadToIpfs(res, req.body.publicKey, req.body.address, req.body.encryptedUser, req.body.encryptedPassword, req.body.encryptedApplink, req.body.appLink)
     // const newData = {publicKey, encryptedUser, encryptedPassword, appLink};
 
 
