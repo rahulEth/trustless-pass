@@ -9,6 +9,7 @@ const cors = require('cors');
 const crypto = require('crypto');
 const axios = require('axios');
 const provider = require('./web3.js')
+const util = require('util');
 
 
 // index.js
@@ -132,13 +133,37 @@ app.get('/api/getEncryptedCred',async  (req, res) => {
         if(result){
             return res.status(200).send(result)
         }
-        return res.status(200).send({message: 'no matching credentials found'})
+        return res.status(404).send({message: 'no matching credentials found'})
     }catch(err){
         console.log('internal server err ', err)
         return res.status(500).send({message: 'internal server error'})
     }
 
 });
+
+app.get('/api/getEncryptedCredsByType',async  (req, res) => {
+    // console.log("req.query.appLink ------ ", req.query.appLink, req.query.address)
+    if(!req.query.type || !req.query.address){
+        return res.status(403).send({message: 'type or address is missing'})
+    }
+    const db = await connectToDatabase();
+    const collection = db.collection('trustless-pass');
+    try{
+        const result = await collection.find({type: req.query.type, address: req.query.address})
+        if(result){
+            const finalResult = await result.toArray();
+            JSON.stringify(finalResult, null, 2);
+            return res.status(200).send(finalResult)
+        }
+        
+        return res.status(404).send({message: 'no matching credentials found'})
+    }catch(err){
+        console.log('internal server err ', err)
+        return res.status(500).send({message: 'internal server error'})
+    }
+
+});
+
 
 // Start the server and listen on the specified port
 app.listen(PORT, () => {

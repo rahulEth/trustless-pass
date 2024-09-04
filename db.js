@@ -2,7 +2,7 @@ const {MongoClient} = require('mongodb');
 require('dotenv').config()
 // Replace the following with your MongoDB connection string.
 // 49.43.169.1)
-const uri = 'mongodb+srv://rahuleum:WQLw3WGjwaqAHoQ1@zkpass-db.vzt7hb3.mongodb.net/?retryWrites=true&w=majority&appName=zkpass-db';
+const uri = process.env.DB_URL;
 
 // Replace 'test' with your actual database name.
 const dbName = process.env.DB_NAME;
