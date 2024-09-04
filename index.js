@@ -28,15 +28,15 @@ const PORT = process.env.PORT || 3000;
 app.post('/api/saveCred', (req, res) => {
     // Encrypt the message with the public key
     console.log("req.body.publicKey ", req.body.publicKey, req.body.address, req.body.appLink)
-
+    const type = req.body.type || 'personal'
     if(!req.body.publicKey || !req.body.address || !req.body.appLink){
-        return res.status(500).send({message: 'publicKey, address or appLink is missing'})
+        return res.status(403).send({message: 'publicKey, address or appLink is missing'})
     }
 
     console.log("req.body.encryptedUser ", req.body.encryptedUser, req.body.encryptedPassword, req.body.encryptedappLink)
 
     if(!req.body.encryptedUser || !req.body.encryptedPassword || !req.body.encryptedappLink){
-        return res.status(500).send({message: 'encryptedUser, encryptedPassword or encryptedappLink is missing'})
+        return res.status(403).send({message: 'encryptedUser, encryptedPassword or encryptedappLink is missing'})
     }
     // const key = publicKeyToAesKey(publicKey);
     // const iv = crypto.randomBytes(16); // Initialization vector
@@ -61,7 +61,7 @@ app.post('/api/saveCred', (req, res) => {
     // var encryptedPassword = CryptoJS.AES.encrypt(req.body.password, req.body.signature).toString();
     // var encryptedApplink = CryptoJS.AES.encrypt(req.body.appLink, req.body.signature).toString();
 
-    uploadToIpfs(res, req.body.publicKey, req.body.address, req.body.encryptedUser, req.body.encryptedPassword, req.body.encryptedApplink, req.body.appLink)
+    uploadToIpfs(res, req.body.publicKey, req.body.address, req.body.encryptedUser, req.body.encryptedPassword, req.body.encryptedApplink, req.body.appLink, type.toLowerCase())
     // const newData = {publicKey, encryptedUser, encryptedPassword, appLink};
 
 
@@ -85,11 +85,11 @@ app.post('/api/saveCred', (req, res) => {
 });
 
 
-async function uploadToIpfs(res, publicKey, address, encryptedUser, encryptedPassword, encryptedappLink, appLink){
+async function uploadToIpfs(res, publicKey, address, encryptedUser, encryptedPassword, encryptedappLink, appLink, type){
     const fileUploads = [
         {
             path: "trustless-pass",
-            content: {publicKey, address, encryptedUser, encryptedPassword, encryptedappLink}
+            content: {publicKey, address, encryptedUser, encryptedPassword, encryptedappLink, type}
         }
       ]
     if(!Moralis.Core.isStarted){
@@ -103,13 +103,13 @@ async function uploadToIpfs(res, publicKey, address, encryptedUser, encryptedPas
         abi: fileUploads
     })
     console.log(resp.result)
-    storeToDB(publicKey, address,resp.result, encryptedUser, encryptedPassword, appLink)
-    return res.status(200).send({address, encryptedUser, encryptedPassword, appLink, ipfsHash: resp.result})
+    storeToDB(publicKey, address,resp.result, encryptedUser, encryptedPassword, appLink, type)
+    return res.status(200).send({address, encryptedUser, encryptedPassword, appLink, ipfsHash: resp.result, type})
 }
-async function storeToDB(publicKey, address, ipfsHash,encryptedUser, encryptedPassword, appLink){
+async function storeToDB(publicKey, address, ipfsHash,encryptedUser, encryptedPassword, appLink, type){
     const db = await connectToDatabase();
     const collection = db.collection('trustless-pass');
-    const result = await collection.insertOne({publicKey, address, ipfsHash, encryptedUser, encryptedPassword, appLink})
+    const result = await collection.insertOne({publicKey, address, ipfsHash, encryptedUser, encryptedPassword, appLink, type})
     console.log('document inserted Id ', result.insertedId.toString())
 }
 
@@ -119,6 +119,26 @@ function publicKeyToAesKey(publicKey) {
     const key = crypto.createHash('sha256').update(publicKey).digest().slice(0, 32);
     return key;
 }
+
+app.get('/api/getEncryptedCred',async  (req, res) => {
+    // console.log("req.query.appLink ------ ", req.query.appLink, req.query.address)
+    if(!req.query.appLink || !req.query.address){
+        return res.status(403).send({message: 'appLink or address is missing'})
+    }
+    const db = await connectToDatabase();
+    const collection = db.collection('trustless-pass');
+    try{
+        const result = await collection.findOne({appLink: req.query.appLink, address: req.query.address})
+        if(result){
+            return res.status(200).send(result)
+        }
+        return res.status(200).send({message: 'no matching credentials found'})
+    }catch(err){
+        console.log('internal server err ', err)
+        return res.status(500).send({message: 'internal server error'})
+    }
+
+});
 
 // Start the server and listen on the specified port
 app.listen(PORT, () => {
