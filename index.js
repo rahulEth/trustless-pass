@@ -53,35 +53,35 @@ app.post('/api/saveCred', (req, res) => {
     var encryptedPassword = CryptoJS.AES.encrypt(req.body.password, req.body.signature).toString();
     var encryptedApplink = CryptoJS.AES.encrypt(req.body.appLink, req.body.signature).toString();
 
-    uploadToIpfs(publicKey, encryptedUser, encryptedPassword, encryptedApplink, req.body.appLink)
-    const newData = {publicKey, encryptedUser, encryptedPassword, appLink};
+    uploadToIpfs(res, publicKey, req.body.address, encryptedUser, encryptedPassword, encryptedApplink, req.body.appLink)
+    // const newData = {publicKey, encryptedUser, encryptedPassword, appLink};
 
 
-    // Read the existing data from the file
-    fs.readFile('./saveCred.json', 'utf8', (err, data) => {
-        if (err && err.code !== 'ENOENT') throw err;
+    // // Read the existing data from the file
+    // fs.readFile('./saveCred.json', 'utf8', (err, data) => {
+    //     if (err && err.code !== 'ENOENT') throw err;
 
-        const jsonArray = data ? JSON.parse(data) : [];
-        console.log('jsonA----- ', jsonArray)
-        // Append the new data
-        jsonArray.push(newData);
+    //     const jsonArray = data ? JSON.parse(data) : [];
+    //     console.log('jsonA----- ', jsonArray)
+    //     // Append the new data
+    //     jsonArray.push(newData);
 
-        // Write the updated array back to the file
-        fs.writeFile('./saveCred.json', JSON.stringify(jsonArray, null, 2), (err) => {
-            if (err) throw err;
-            console.log('Data appended to file');
-        });
-    });
-    return res.status(200).send({publicKey, encryptedUser, encryptedPassword, appLink})
+    //     // Write the updated array back to the file
+    //     fs.writeFile('./saveCred.json', JSON.stringify(jsonArray, null, 2), (err) => {
+    //         if (err) throw err;
+    //         console.log('Data appended to file');
+    //     });
+    // });
+    // return res.status(200).send({publicKey, encryptedUser, encryptedPassword, appLink})
 
 });
 
 
-async function uploadToIpfs(publicKey, encryptedUser, encryptedPassword, encryptedappLink, appLink){
+async function uploadToIpfs(res, publicKey, address, encryptedUser, encryptedPassword, encryptedappLink, appLink){
     const fileUploads = [
         {
-            path: "zk-pass",
-            content: {publicKey, encryptedUser, encryptedPassword, encryptedappLink}
+            path: "trustless-pass",
+            content: {publicKey, address, encryptedUser, encryptedPassword, encryptedappLink}
         }
       ]
     if(!Moralis.Core.isStarted){
@@ -91,16 +91,17 @@ async function uploadToIpfs(publicKey, encryptedUser, encryptedPassword, encrypt
     } else{
         console.log('Moralis is already started!')
     } 
-    const res = await Moralis.EvmApi.ipfs.uploadFolder({
+    const resp = await Moralis.EvmApi.ipfs.uploadFolder({
         abi: fileUploads
     })
-    console.log(res.result)
-    storeToDB(publicKey, res.result, appLink)
+    console.log(resp.result)
+    storeToDB(publicKey, address,resp.result, encryptedUser, encryptedPassword, appLink)
+    return res.status(200).send({address, encryptedUser, encryptedPassword, appLink, ipfsHash: resp.result})
 }
-async function storeToDB(publicKey, ipfsHash, appLink){
+async function storeToDB(publicKey, address, ipfsHash,encryptedUser, encryptedPassword, appLink){
     const db = await connectToDatabase();
-    const collection = db.collection('zkpass-credentials');
-    const result = await collection.insertOne({publicKey, ipfsHash, appLink})
+    const collection = db.collection('trustless-pass');
+    const result = await collection.insertOne({publicKey, address, ipfsHash, encryptedUser, encryptedPassword, appLink})
     console.log('document inserted Id ', result.insertedId.toString())
 }
 
