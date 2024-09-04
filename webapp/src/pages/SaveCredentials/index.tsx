@@ -1,12 +1,17 @@
 import { Alert, Card, Snackbar } from "@mui/material";
 import MainBody from "../../components/MainBody";
 import SaveCredForm, { SaveCredFormProps } from "../../components/SaveCredForm";
-import { useMutationSaveCredentials } from "../../api";
-import { useEffect, useState } from "react";
+import {
+  UseMutationSaveCredentials,
+  useMutationSaveCredentials,
+} from "../../api";
+import { useContext, useEffect, useState } from "react";
 import useModal from "../../hooks/useModal";
 import SuccessfulTrxModal from "../../components/SuccessfulTrxModal";
+import { Web3ProviderContext } from "../../contexts/Web3Context";
 
 const SaveCredentials = () => {
+  const { provider, account } = useContext(Web3ProviderContext) || {};
   const {
     mutate,
     isPending,
@@ -33,8 +38,16 @@ const SaveCredentials = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mutateStatus, mutateData, mutateError]);
 
-  const onSubmit = (data: SaveCredFormProps) => {
-    mutate(data);
+  const onSubmit = async (data: SaveCredFormProps) => {
+    if (!!provider && !!account) {
+      const mutatingData: UseMutationSaveCredentials = {
+        ...data,
+        provider,
+        address: account,
+      };
+
+      mutate(mutatingData);
+    }
   };
 
   const handleCloseError = () => setResponseError("");

@@ -1,50 +1,20 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CredType } from "../enums/CredTypeEnums";
-import { CredDetails } from "../components/CredDetailsCard";
 import { SaveCredFormProps } from "../components/SaveCredForm";
 import axios from "axios";
 import { AES } from "crypto-js";
+import { BrowserProvider } from "ethers";
+import { getSignerDetails } from "../utils";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const apiClient = axios.create({
-  baseURL: "https://jsonplaceholder.typicode.com",
+  baseURL: " http://localhost:3000/api",
 });
 
-const MOCK_CREDS: CredDetails[] = [
-  {
-    url: "Amazon.com",
-    username: "Test",
-    type: CredType.SOCIAL,
-    password: "Test@123",
-  },
-  {
-    url: "Bank.com",
-    username: "TestBank",
-    type: CredType.BANKING,
-    password: "Test@123",
-  },
-  {
-    url: "Personal.com",
-    username: "TestPersonal",
-    type: CredType.PERSONAL,
-    password: "Test@123",
-  },
-  {
-    url: "other.com",
-    username: "TestOther",
-    type: CredType.OTHER,
-    password: "Test@123",
-  },
-];
-
-export const useQueryGetCredentials = () => {
+/* export const useQueryGetCredentials = () => {
   const isEmpty = false;
   const isError = false;
   return useQuery({
     queryFn: async () => {
-      const response = await apiClient.get("/posts");
-      console.log("response: ", response.data);
-
       return new Promise<CredDetails[]>((resolve, reject) => {
         setTimeout(
           () => (isError ? reject() : resolve(isEmpty ? [] : MOCK_CREDS)),
@@ -54,6 +24,41 @@ export const useQueryGetCredentials = () => {
     },
     queryKey: ["get-credentials"],
   });
+}; */
+
+export interface UseQueryGetCredentialsByType {
+  type: CredType | "all";
+  address: string;
+}
+
+export interface IpfsHashData {
+  path: string;
+}
+export interface UseQueryGetCredentialsByTypeRes {
+  _id: string;
+  publicKey: string;
+  address: string;
+  ipfsHash: IpfsHashData[];
+  encryptedUser: string;
+  encryptedPassword: string;
+  appLink: string;
+  type: CredType;
+}
+export const useQueryGetCredentialsByType = ({
+  type,
+  address,
+}: UseQueryGetCredentialsByType) => {
+  return useQuery({
+    queryFn: async () => {
+      const response = await apiClient.get("/getEncryptedCred", {
+        params: { type, address },
+      });
+      console.log("response: ", response.data);
+
+      return response.data as UseQueryGetCredentialsByTypeRes[];
+    },
+    queryKey: ["get-credentials-by-type", type, address],
+  });
 };
 
 export interface UseMutationSaveCredentialsRes {
@@ -62,10 +67,33 @@ export interface UseMutationSaveCredentialsRes {
   TrxHashUrl: string;
 }
 
+export interface UseMutationSaveCredentials extends SaveCredFormProps {
+  provider: BrowserProvider;
+  address: string;
+}
 export const useMutationSaveCredentials = () => {
   const isError = false;
   return useMutation({
-    mutationFn: (data: SaveCredFormProps) => {
+    mutationFn: async (data: UseMutationSaveCredentials) => {
+      const { url, username, password, type, provider, address } = data;
+      const signer = await getSignerDetails(provider);
+      const signature = await signer.signMessage(data.url);
+      console.log("sign: ", signature);
+      const encryptedUser = AES.encrypt(username, signature);
+      const encryptedPassword = AES.encrypt(password, signature);
+      const encryptedappLink = AES.encrypt(url, signature);
+      const response = await apiClient.get("/saveCred", {
+        data: {
+          publicKey: address,
+          address: address,
+          appLink: url,
+          encryptedUser,
+          encryptedPassword,
+          encryptedappLink,
+          type: type,
+        },
+      });
+      console.log("response: ", response.data);
       return new Promise<UseMutationSaveCredentialsRes>((resolve, reject) => {
         const cipherText = AES.encrypt(data.password, data.username);
         console.log("cipherText: ", cipherText.toString());
