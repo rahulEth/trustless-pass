@@ -40,8 +40,12 @@ const SaveCredentials = () => {
 
   const onSubmit = async (data: SaveCredFormProps) => {
     if (!!provider && !!account) {
+      const appURL = new URL(data.url);
+      const url = appURL.hostname;
+
       const mutatingData: UseMutationSaveCredentials = {
         ...data,
+        url,
         provider,
         address: account,
       };
