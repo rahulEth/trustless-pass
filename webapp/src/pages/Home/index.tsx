@@ -1,6 +1,7 @@
 import { Card } from "@mui/material";
 
-import SecurityFlag from "./assets/security-flag.svg?react";
+// import SecurityFlag from "./assets/security-flag.svg?react";
+import CredStorage from "./assets/cred-storage.svg?react";
 import { useNavigate } from "react-router-dom";
 import { ROUTING_PATH } from "../../constants";
 import ConnectWalletModal from "../../components/ConnectWalletModal";
@@ -37,7 +38,7 @@ const Home = () => {
     <div className="col-span-full flex flex-col gap-6">
       <div className="flex flex-col md:flex-row items-stretch bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% !text-white rounded-xl">
         <div className="basis-1/2 bg-white/[0.3] rounded-b-3xl md:rounded-bl-none md:rounded-r-full">
-          <SecurityFlag className="h-96 w-96" />
+          <CredStorage className="h-96 w-96" />
         </div>
         <div className="basis-1/2 text-3xl md:text-5xl p-4 text-center md:text-right">
           {" "}
