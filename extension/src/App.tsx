@@ -7,10 +7,12 @@ import {
 import { useContext } from "react";
 import { Alert } from "@mui/material";
 import { getMaskedAddress } from "./utils";
+import { useMutationGetCredentials } from "./api";
 
 function App() {
   const { account, isLoading, error } = useContext(Web3ProviderContext) || {};
   const { connect } = useContext(Web3DispatchContext) || {};
+  const { mutate, isPending } = useMutationGetCredentials();
 
   const onClickConnect = async () => {
     if (!!connect) {
@@ -23,6 +25,12 @@ function App() {
   const onCheckCred = async () => {
     const [tab] = await chrome.tabs.query({ active: true });
     console.log("active url: ", tab.url);
+    if (!!tab.url && !!account) {
+      const url = new URL(tab.url);
+      const appLink = url.hostname;
+      console.log("appLink: ", appLink);
+      mutate({ appLink, address: account });
+    }
   };
 
   return (
@@ -37,10 +45,13 @@ function App() {
             {error}
           </Alert>
         )}
-        <button onClick={() => onClickConnect()} disabled={isLoading}>
+        <button
+          onClick={() => onClickConnect()}
+          disabled={isLoading || isPending}
+        >
           {account ? getMaskedAddress(account) : "Connect Wallet"}
         </button>
-        <button onClick={() => onCheckCred()} disabled={isLoading}>
+        <button onClick={() => onCheckCred()} disabled={isLoading || isPending}>
           Check Cred for this Tab
         </button>
       </div>
