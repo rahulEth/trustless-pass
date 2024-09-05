@@ -50,7 +50,7 @@ export const useQueryGetCredentialsByType = ({
 }: UseQueryGetCredentialsByType) => {
   return useQuery({
     queryFn: async () => {
-      const response = await apiClient.get("/getEncryptedCred", {
+      const response = await apiClient.get("/getEncryptedCredByType", {
         params: { type, address },
       });
       console.log("response: ", response.data);
