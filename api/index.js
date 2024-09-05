@@ -15,8 +15,9 @@ const util = require("util");
 const express = require("express");
 const app = express();
 const CryptoJS = require("crypto-js");
+const corsOptions = require("./config/corsOptions.js");
 // Use CORS middleware
-app.use(cors({ origin: "http://127.0.0.1:5173" }));
+app.use(cors(corsOptions));
 
 // Middleware to parse JSON bodies
 app.use(express.json());
