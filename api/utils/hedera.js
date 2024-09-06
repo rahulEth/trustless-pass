@@ -1,8 +1,5 @@
 const ethers = require('ethers');
-const contractABI = require('./ABI.json').abi;
 require('dotenv').config()
-
-const privateKey =  process.env.APP_PRIVATE_KEY //wallet.privateKey;
 const { 
     Client, 
     ContractExecuteTransaction, 
@@ -159,3 +156,5 @@ async function verifyClient() {
         console.error('Error verifying client:', error);
     }
 }
+
+module.exports={getProof, setProof}

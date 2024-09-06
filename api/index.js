@@ -6,9 +6,8 @@ dotenv.config();
 const { connectToDatabase } = require("./db.js");
 const cors = require("cors");
 const crypto = require("crypto");
-const axios = require("axios");
 const provider = require("./web3.js");
-const util = require("util");
+const {getProof, setProof} = require('./utils/hedera.js');
 
 // index.js
 
