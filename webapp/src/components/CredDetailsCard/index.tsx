@@ -25,7 +25,7 @@ const CredDetailsCard = ({ creds, className = "" }: CredDetailsCardProps) => {
           </div>
           <Field name="Username" value={creds.encryptedUser} />
           <PasswordField name="Password" value={creds.encryptedPassword} />
-          <Field name="Website" value={creds.appLink} />
+          <Field name="Trx Hash" value={creds.txHash} />
         </div>
       ) : (
         <div className="text-center text-slate-500 min-h-72">

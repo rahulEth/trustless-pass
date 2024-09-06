@@ -39,6 +39,8 @@ const SuccessfulTrxModal = ({
     navigate(ROUTING_PATH.CHECK_CREDS);
   };
 
+  const trxHash = data?.ipfsHash.at(0)?.path || "";
+
   return (
     <CustomModal open={open} handleClose={handleClose}>
       <div className="flex flex-col gap-6">
@@ -48,17 +50,15 @@ const SuccessfulTrxModal = ({
         <TwoSideText
           leftText="URL:"
           rightText={
-            <ExternalLink title={data?.url || ""} url={data?.url || ""} />
+            <ExternalLink
+              title={data?.appLink || ""}
+              url={data?.appLink || ""}
+            />
           }
         />
         <TwoSideText
           leftText="Trx Hash:"
-          rightText={
-            <ExternalLink
-              title={data?.TrxHash || ""}
-              url={data?.TrxHashUrl || ""}
-            />
-          }
+          rightText={<ExternalLink title={trxHash} url={trxHash} />}
         />
         <CustomButton
           className="!rounded-full !text-lg !py-3"

@@ -43,6 +43,7 @@ export interface UseQueryGetCredentialsByTypeRes {
   encryptedPassword: string;
   appLink: string;
   type: CredType;
+  txHash: string;
 }
 export const useQueryGetCredentialsByType = ({
   type,
@@ -62,9 +63,14 @@ export const useQueryGetCredentialsByType = ({
 };
 
 export interface UseMutationSaveCredentialsRes {
-  url: string;
-  TrxHash: string;
-  TrxHashUrl: string;
+  publicKey: string;
+  address: string;
+  appLink: string;
+  ipfsHash: IpfsHashData[];
+  encryptedUser: string;
+  encryptedPassword: string;
+  encryptedappLink: string;
+  type: CredType;
 }
 
 export interface UseMutationSaveCredentials extends SaveCredFormProps {
@@ -72,7 +78,6 @@ export interface UseMutationSaveCredentials extends SaveCredFormProps {
   address: string;
 }
 export const useMutationSaveCredentials = () => {
-  const isError = false;
   return useMutation({
     mutationFn: async (data: UseMutationSaveCredentials) => {
       const { url, username, password, type, provider, address } = data;
@@ -82,7 +87,7 @@ export const useMutationSaveCredentials = () => {
       const encryptedUser = AES.encrypt(username, signature).toString();
       const encryptedPassword = AES.encrypt(password, signature).toString();
       const encryptedappLink = AES.encrypt(url, signature).toString();
-      const response = await apiClient.post("/api/saveCred", {
+      const res = await apiClient.post("/api/saveCred", {
         publicKey: `pub${address}`,
         address: address,
         appLink: url,
@@ -91,24 +96,8 @@ export const useMutationSaveCredentials = () => {
         encryptedappLink,
         type: type,
       });
-      console.log("response: ", response.data);
-      return new Promise<UseMutationSaveCredentialsRes>((resolve, reject) => {
-        const cipherText = AES.encrypt(data.password, data.username);
-        console.log("cipherText: ", cipherText.toString());
-        setTimeout(
-          () =>
-            isError
-              ? reject(new Error("Transaction Failed!"))
-              : resolve({
-                  url: data.url,
-                  TrxHash:
-                    "0x8bd841fabfbaa599c15c8a1eb33a26a87bbb557ab94e79725699660648a530f1",
-                  TrxHashUrl:
-                    "https://etherscan.io/tx/0x8bd841fabfbaa599c15c8a1eb33a26a87bbb557ab94e79725699660648a530f1",
-                }),
-          1000
-        );
-      });
+      console.log("response: ", res.data);
+      return res.data as UseMutationSaveCredentialsRes;
     },
     mutationKey: ["save-credentials"],
   });
