@@ -10,7 +10,13 @@ const writeClipboardText = async (text: string) => {
   }
 };
 
-const CopyBtn = ({ data }: { data: string }) => {
+const CopyBtn = ({
+  data,
+  className = "",
+}: {
+  data: string;
+  className?: string;
+}) => {
   const [coping, setCoping] = useState(false);
 
   const onClickCopy = async (data: string) => {
@@ -20,7 +26,11 @@ const CopyBtn = ({ data }: { data: string }) => {
   };
 
   return (
-    <IconButton onClick={() => onClickCopy(data)} disabled={coping}>
+    <IconButton
+      onClick={() => onClickCopy(data)}
+      disabled={coping}
+      className={className}
+    >
       {!coping ? (
         <ContentCopy className="!h-5 !w-auto" color="action" />
       ) : (

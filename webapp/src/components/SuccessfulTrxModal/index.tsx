@@ -39,7 +39,7 @@ const SuccessfulTrxModal = ({
     navigate(ROUTING_PATH.CHECK_CREDS);
   };
 
-  const trxHash = data?.ipfsHash.at(0)?.path || "";
+  const ipfsHash = data?.ipfsHash.at(0)?.path || "";
 
   return (
     <CustomModal open={open} handleClose={handleClose}>
@@ -57,8 +57,8 @@ const SuccessfulTrxModal = ({
           }
         />
         <TwoSideText
-          leftText="Trx Hash:"
-          rightText={<ExternalLink title={trxHash} url={trxHash} />}
+          leftText="IPFS Hash:"
+          rightText={<ExternalLink title={ipfsHash} url={ipfsHash} />}
         />
         <CustomButton
           className="!rounded-full !text-lg !py-3"
