@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: " http://localhost:3000/api",
+  baseURL: " http://localhost:3000",
 });
 
 export enum CredType {
@@ -35,7 +35,7 @@ export interface UseMutationGetCredentialsRes {
 export const useMutationGetCredentials = () => {
   return useMutation({
     mutationFn: async ({ appLink, address }: UseMutationGetCredentials) => {
-      const response = await apiClient.get("/getEncryptedCred", {
+      const response = await apiClient.get("/api/getEncryptedCred", {
         params: { appLink, address },
       });
       console.log("response: ", response.data);

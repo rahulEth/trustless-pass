@@ -7,7 +7,7 @@ import { BrowserProvider } from "ethers";
 import { getSignerDetails } from "../utils";
 
 const apiClient = axios.create({
-  baseURL: " http://localhost:3000/api",
+  baseURL: " http://localhost:3000",
 });
 
 /* export const useQueryGetCredentials = () => {
@@ -50,7 +50,7 @@ export const useQueryGetCredentialsByType = ({
 }: UseQueryGetCredentialsByType) => {
   return useQuery({
     queryFn: async () => {
-      const response = await apiClient.get("/getEncryptedCredByType", {
+      const response = await apiClient.get("/api/getEncryptedCredsByType", {
         params: { type, address },
       });
       console.log("response: ", response.data);
@@ -82,7 +82,7 @@ export const useMutationSaveCredentials = () => {
       const encryptedUser = AES.encrypt(username, signature);
       const encryptedPassword = AES.encrypt(password, signature);
       const encryptedappLink = AES.encrypt(url, signature);
-      const response = await apiClient.get("/saveCred", {
+      const response = await apiClient.get("/api/saveCred", {
         data: {
           publicKey: address,
           address: address,
