@@ -26,25 +26,12 @@ const PORT = process.env.PORT || 3000;
 // Define a simple route
 app.post("/api/saveCred", (req, res) => {
   // Encrypt the message with the public key
-  console.log(
-    "req.body.publicKey ",
-    req.body.publicKey,
-    req.body.address,
-    req.body.appLink
-  );
   const type = req.body.type || "personal";
   if (!req.body.publicKey || !req.body.address || !req.body.appLink) {
     return res
       .status(403)
       .send({ message: "publicKey, address or appLink is missing" });
   }
-
-  console.log(
-    "req.body.encryptedUser ",
-    req.body.encryptedUser,
-    req.body.encryptedPassword,
-    req.body.encryptedappLink
-  );
 
   if (
     !req.body.encryptedUser ||
@@ -170,7 +157,6 @@ async function storeToDB(
   type
 ) {
   const resp = await setProof(publicKey, address, ipfsHash[0].path);
-  console.log("resp------- ", resp)
   const txHash = `https://hashscan.io/testnet/transaction/${resp.transactionId}`
   const db = await connectToDatabase();
   const collection = db.collection("trustless-pass");
