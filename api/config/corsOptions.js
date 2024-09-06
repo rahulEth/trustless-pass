@@ -1,4 +1,4 @@
-const allowdedOrigins = ["http://127.0.0.1:5173"];
+const allowdedOrigins = ["http://127.0.0.1:5173", "http://localhost:5173"];
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -9,6 +9,7 @@ const corsOptions = {
     }
   },
   credentials: true,
+  optionsSuccessStatus: 200,
 };
 
 module.exports = corsOptions;
