@@ -169,7 +169,7 @@ async function storeToDB(
   appLink,
   type
 ) {
-  const resp = await setProof(publicKey, address, ipfsHash);
+  const resp = await setProof(publicKey, address, ipfsHash[0].path);
   console.log("resp------- ", resp)
   const txHash = `https://hashscan.io/testnet/transaction/${resp.transactionId}`
   const db = await connectToDatabase();

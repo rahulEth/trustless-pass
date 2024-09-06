@@ -67,8 +67,9 @@ const getProof = async (key, hash)=>{
 
 const setProof =async (publicKey, ownerAdd, ipfsHash)=>{
     // const contractInterface = new ethers.utils.Interface(contractABI);
+    console.log({publicKey, ownerAdd, ipfsHash})
     const gasLimit = 1000000;
-
+    let transactionId= null;
     try {
         const transaction = new ContractExecuteTransaction()
         .setContractId(contractId)
@@ -84,17 +85,18 @@ const setProof =async (publicKey, ownerAdd, ipfsHash)=>{
         // const receipt = await txResponse.getReceipt(client);
 
         // Get the transactionId from the response object
-        const transactionId = txResponse.transactionId.toString();
+        transactionId = txResponse.transactionId.toString();
         console.log("Transaction ID:", transactionId);
+            const receipt = await txResponse.getReceipt(client); // Adjust based on your function return type
+            console.log('Contract function result:', receipt);
+            //Get the transaction consensus status
+            const transactionStatus = receipt.status;
+        
+           console.log("The transaction consensus status is " +transactionStatus);
         return {transactionId, ownerAdd}
-    //     const receipt = await txResponse.getReceipt(client); // Adjust based on your function return type
-    //     console.log('Contract function result:', receipt);
-    //     //Get the transaction consensus status
-    //     const transactionStatus = receipt.status;
-       
-    //    console.log("The transaction consensus status is " +transactionStatus);
     } catch (error) {
         console.error('Error calling contract function:', error);
+        return {transactionId, ownerAdd}
     }
 }
 
