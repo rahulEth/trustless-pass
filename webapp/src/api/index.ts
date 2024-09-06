@@ -79,19 +79,17 @@ export const useMutationSaveCredentials = () => {
       const signer = await getSignerDetails(provider);
       const signature = await signer.signMessage(data.url);
       console.log("sign: ", signature);
-      const encryptedUser = AES.encrypt(username, signature);
-      const encryptedPassword = AES.encrypt(password, signature);
-      const encryptedappLink = AES.encrypt(url, signature);
-      const response = await apiClient.get("/api/saveCred", {
-        data: {
-          publicKey: address,
-          address: address,
-          appLink: url,
-          encryptedUser,
-          encryptedPassword,
-          encryptedappLink,
-          type: type,
-        },
+      const encryptedUser = AES.encrypt(username, signature).toString();
+      const encryptedPassword = AES.encrypt(password, signature).toString();
+      const encryptedappLink = AES.encrypt(url, signature).toString();
+      const response = await apiClient.post("/api/saveCred", {
+        publicKey: `pub${address}`,
+        address: address,
+        appLink: url,
+        encryptedUser,
+        encryptedPassword,
+        encryptedappLink,
+        type: type,
       });
       console.log("response: ", response.data);
       return new Promise<UseMutationSaveCredentialsRes>((resolve, reject) => {

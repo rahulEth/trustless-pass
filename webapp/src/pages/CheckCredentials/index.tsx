@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import CredDetailsCard, { CredDetails } from "../../components/CredDetailsCard";
 import CredInfoCard from "../../components/CredInfoCard";
 import MainBody from "../../components/MainBody";
@@ -30,14 +30,14 @@ const CheckCredentials = () => {
   const { account = "" } = useContext(Web3ProviderContext) || {};
   const [selectedCred, setSelectedCred] = useState<CredDetails>();
 
-  const { control, handleSubmit, getValues } = useForm<SearchFormProps>({
+  const { control, handleSubmit, watch } = useForm<SearchFormProps>({
     defaultValues: {
       type: "all",
       search: "",
     },
   });
 
-  const { type } = getValues();
+  const type = useMemo(() => watch("type"), [watch("type")]);
 
   const { isLoading, data, isError } = useQueryGetCredentialsByType({
     type,

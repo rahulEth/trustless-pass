@@ -6,6 +6,7 @@ import { ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import ConnectWallet from "../ConnectWallet";
 import CustomButton from "../CustomButton";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   className?: string;
@@ -28,10 +29,10 @@ const Header = ({ className = "" }: HeaderProps) => {
         className="mx-auto max-w-screen-xl flex items-center justify-between px-6 py-4 lg:px-8"
       >
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <Link to="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Trust Pass</span>
             <img alt="" src="trust-pass.svg" className="h-10 w-auto" />
-          </a>
+          </Link>
         </div>
         <div className="flex flex-1 justify-end gap-2">
           <CustomButton
