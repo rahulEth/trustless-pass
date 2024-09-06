@@ -14,7 +14,6 @@ const {
     ContractFunctionParameters
 } = require('@hashgraph/sdk');
 
-console.log("process.env.APP_WALLET_ACCOUNTID  ", process.env.APP_WALLET_ACCOUNTID)
 const operatorId = AccountId.fromString(process.env.APP_WALLET_ACCOUNTID);
 const myPrivateKey = process.env.APP_PRIVATE_KEY;
 
@@ -67,7 +66,6 @@ const getProof = async (key, hash)=>{
 
 const setProof =async (publicKey, ownerAdd, ipfsHash)=>{
     // const contractInterface = new ethers.utils.Interface(contractABI);
-    console.log({publicKey, ownerAdd, ipfsHash})
     const gasLimit = 1000000;
     let transactionId= null;
     try {
