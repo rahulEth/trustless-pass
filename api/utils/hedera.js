@@ -14,6 +14,7 @@ const {
     ContractFunctionParameters
 } = require('@hashgraph/sdk');
 
+console.log("process.env.APP_WALLET_ACCOUNTID  ", process.env.APP_WALLET_ACCOUNTID)
 const operatorId = AccountId.fromString(process.env.APP_WALLET_ACCOUNTID);
 const myPrivateKey = process.env.APP_PRIVATE_KEY;
 
@@ -64,18 +65,17 @@ const getProof = async (key, hash)=>{
 }
 
 
-const setProof =async ()=>{
-
-    const contractABI = require('./ABI.json').abi;
+const setProof =async (publicKey, ownerAdd, ipfsHash)=>{
     // const contractInterface = new ethers.utils.Interface(contractABI);
+    console.log({publicKey, ownerAdd, ipfsHash})
     const gasLimit = 1000000;
-
+    let transactionId= null;
     try {
         const transaction = new ContractExecuteTransaction()
         .setContractId(contractId)
         .setGas(gasLimit)
         .setFunction("storeProof", 
-            new ContractFunctionParameters().addString('hello').addAddress('aa2319b893002b822e5b841f87cd8b0ec13b6041').addString('hii')
+            new ContractFunctionParameters().addString(publicKey).addAddress(ownerAdd).addString(ipfsHash)
         )
 
         //Sign with the client operator private key to pay for the transaction and submit the query to a Hedera network
@@ -84,15 +84,19 @@ const setProof =async ()=>{
         //Request the receipt of the transaction
         // const receipt = await txResponse.getReceipt(client);
 
-
-        const receipt = await txResponse.getReceipt(client); // Adjust based on your function return type
-        console.log('Contract function result:', receipt);
-        //Get the transaction consensus status
-       const transactionStatus = receipt.status;
-
-       console.log("The transaction consensus status is " +transactionStatus);
+        // Get the transactionId from the response object
+        transactionId = txResponse.transactionId.toString();
+        console.log("Transaction ID:", transactionId);
+            const receipt = await txResponse.getReceipt(client); // Adjust based on your function return type
+            console.log('Contract function result:', receipt);
+            //Get the transaction consensus status
+            const transactionStatus = receipt.status;
+        
+           console.log("The transaction consensus status is " +transactionStatus);
+        return {transactionId, ownerAdd}
     } catch (error) {
         console.error('Error calling contract function:', error);
+        return {transactionId, ownerAdd}
     }
 }
 
@@ -156,5 +160,4 @@ async function verifyClient() {
         console.error('Error verifying client:', error);
     }
 }
-
 module.exports={getProof, setProof}

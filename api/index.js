@@ -169,6 +169,9 @@ async function storeToDB(
   appLink,
   type
 ) {
+  const resp = await setProof(publicKey, address, ipfsHash[0].path);
+  console.log("resp------- ", resp)
+  const txHash = `https://hashscan.io/testnet/transaction/${resp.transactionId}`
   const db = await connectToDatabase();
   const collection = db.collection("trustless-pass");
   const result = await collection.insertOne({
@@ -179,6 +182,7 @@ async function storeToDB(
     encryptedPassword,
     appLink,
     type,
+    txHash
   });
   console.log("document inserted Id ", result.insertedId.toString());
 }
