@@ -1,12 +1,25 @@
-# zk-pass
+# trustless-pass
 
-blockchain enabled web2 credentials securing with blockchain, decentralize storage, user wallet and zkps
+A never seen before Web2 credentails management application. Store and access your credentails purely in non-custodial and trsutless way. 
 
-# Project Description
+![top](./docs/dashboard.png)
 
-users can securely save/access their password, username to access any application on internet. No need to worry about credentials theft or to forget them, now you can secure your hundreds of username and password with your own wallet private key, you would have 100 % control if it.
+![top](./docs/save-creds.png)
+
+![top](./docs/get-creds.png)
 
 
+## Demo App
+
+
+
+## Description
+
+trustless-pass is a web app and browser extension designed to store and access users' Web2 credentials trustlessly. When users secure their credentials, trustless-pass prompts them to provide their signature to encrypt and store the credentials. We issue a proof of security on the Hedera blockchain so users can verify and ensure the safety of their data. No one other than the user can see or access the credentials, as everything is encrypted using the user's MetaMask wallet signature.
+
+For example, if a user wants to log in to Amazon.com, our browser extension will prompt them to provide their signature to access and decrypt the credentials for Amazon.com.
+
+![architecture](./docs/architecture.png)
 
 # back-end depedencies
 

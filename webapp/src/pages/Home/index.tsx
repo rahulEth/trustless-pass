@@ -40,9 +40,9 @@ const Home = () => {
         <div className="basis-1/2 bg-white/[0.3] rounded-b-3xl md:rounded-bl-none md:rounded-r-full">
           <CredStorage className="h-96 w-96" />
         </div>
-        <div className="basis-1/2 text-3xl md:text-5xl p-4 text-center md:text-right">
+        <div className="basis-1/2 text-3xl md:text-4xl p-4 text-center md:text-right">
           {" "}
-          Secure Your Credentials with Precision
+          Your Credentials, Your Control – Trustless and Non-Custodial Security
         </div>
       </div>
       <div className="flex items-center justify-around gap-8 !bg-sky-100 p-6 rounded-lg">
