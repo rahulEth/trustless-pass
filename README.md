@@ -21,7 +21,10 @@ For example, if a user wants to log in to Amazon.com, our browser extension will
 
 ![architecture](./docs/architecture.png)
 
-# back-end depedencies
 
-nodeJs : v18.19.1
 
+## Deployed Contract for trsutless-pass apps on Hedera Blockhain
+
+### TrsutlessProof
+
+- https://hashscan.io/testnet/contract/0.0.4807203
