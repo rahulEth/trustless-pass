@@ -213,17 +213,26 @@ app.get("/api/getEncryptedCredsByType", async (req, res) => {
   }
   const db = await connectToDatabase();
   const collection = db.collection("trustless-pass");
-  try {
-    const result = await collection.find({
+  let query = {};
+  if(req.query.type.toLowerCase() == 'all'){
+    query = {
+      address: req.query.address,
+    }
+  }else if(req.query.type == 'personal' || req.query.type == 'social' || req.query.type == 'banking' || req.query.type == 'other'){
+    query = {
       type: req.query.type,
       address: req.query.address,
-    });
+    }
+  }else{
+    return res.status(403).send({ message: "valid type are personal, social, banking, other, all" });
+  }
+  try {
+    const result = await collection.find(query);
     if (result) {
       const finalResult = await result.toArray();
       JSON.stringify(finalResult, null, 2);
       return res.status(200).send(finalResult);
     }
-
     return res.status(404).send({ message: "no matching credentials found" });
   } catch (err) {
     console.log("internal server err ", err);
