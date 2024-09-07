@@ -1,6 +1,8 @@
+import React from "react";
+
 export interface FieldProps {
   name: string;
-  value: string;
+  value: React.ReactNode;
 }
 
 const Field = ({ name, value }: FieldProps) => {

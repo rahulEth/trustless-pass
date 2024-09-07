@@ -26,7 +26,7 @@ const PasswordField = ({ name, value }: FieldProps) => {
             <Visibility className="!h-5 !w-auto" color="action" />
           )}
         </IconButton>
-        <CopyBtn data={value} className="col-span-1" />
+        <CopyBtn data={value as string} className="col-span-1" />
       </div>
     </div>
   );

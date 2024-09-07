@@ -78,7 +78,13 @@ const SuccessfulTrxModal = ({
   );
 };
 
-const ExternalLink = ({ title, url }: { title: string; url: string }) => {
+export const ExternalLink = ({
+  title,
+  url,
+}: {
+  title: string;
+  url: string;
+}) => {
   return (
     <a href={url} target="_blank" className="text-blue-600 underline">
       {title}
