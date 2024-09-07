@@ -4,6 +4,7 @@ import Field from "./components/Field";
 import PasswordField from "./components/PasswordField";
 import "./style.css";
 import { UseQueryGetCredentialsByTypeRes } from "../../api";
+import { ExternalLink } from "../SuccessfulTrxModal";
 export interface CredDetails extends UseQueryGetCredentialsByTypeRes {}
 
 export interface CredDetailsCardProps {
@@ -25,7 +26,10 @@ const CredDetailsCard = ({ creds, className = "" }: CredDetailsCardProps) => {
           </div>
           <Field name="Username" value={creds.encryptedUser} />
           <PasswordField name="Password" value={creds.encryptedPassword} />
-          <Field name="Trx Hash" value={creds.txHash} />
+          <Field
+            name="Trx Hash"
+            value={<ExternalLink title={creds.txHash} url={creds.txHash} />}
+          />
         </div>
       ) : (
         <div className="text-center text-slate-500 min-h-72">

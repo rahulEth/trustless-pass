@@ -1,8 +1,12 @@
 import { useState } from "react";
-import { FieldProps } from "../Field";
 import { IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import CopyBtn from "../CopyBtn";
+import "./style.css";
+export interface FieldProps {
+  name: string;
+  value: React.ReactNode;
+}
 
 const PasswordField = ({ name, value }: FieldProps) => {
   const [showPwd, setShowPwd] = useState(false);
@@ -10,10 +14,9 @@ const PasswordField = ({ name, value }: FieldProps) => {
   return (
     <div className="flex flex-col font-medium hover:bg-gray-200 rounded p-2">
       <div className="text-slate-500 text-sm">{name}</div>
-      {/* <div className="text-slate-900 text-base flex flex-wrap	flex-row gap-1 items-center"> */}
-      <div className="text-slate-900 text-base grid grid-cols-12">
+      <div className="text-slate-900 text-base grid grid-cols-10 gap-1 place-items-center">
         <div
-          className={`col-span-10 text-wrap break-all ${
+          className={`col-span-8 text-wrap break-all ${
             !showPwd ? "password_field" : ""
           }`}
         >
