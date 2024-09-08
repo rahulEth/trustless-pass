@@ -1,4 +1,6 @@
-# trustless-pass
+![Logo](docs/trustless-pass.png)
+
+# About
 
 A never-before-seen Web2 credentials management application. Store and access your credentials in a purely non-custodial and trustless way.
 
