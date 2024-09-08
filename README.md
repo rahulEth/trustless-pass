@@ -1,4 +1,4 @@
-![Logo](docs/trustless-pass.svg)
+![Logo](docs/trustless-pass-2.svg)
 
 # About
 
