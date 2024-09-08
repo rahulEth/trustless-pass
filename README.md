@@ -2,24 +2,34 @@
 
 A never-before-seen Web2 credentials management application. Store and access your credentials in a purely non-custodial and trustless way.
 
-## Getting Started
+## Getting Started on local 
 
-First, set the correct Node.js version using `nvm` and run the development server:
-```bash
-nvm use v18.19.1
+To run daap locally, you will need
 
-```
+- Node.js (v18 or above)
+- Chrome Browser Or Chromium based browser
+- Metamask Extension on Chrome Browser (Chromium based browser)
 
 # back-end
+
+1. clone this repo
+
+```
+git clone https://github.com/rahulEth/trustless-pass.git
+```
+
+2.  go to api folder
+
 ```
 cd api
 ```
 
-copy .env.example to .env 
+3. copy .env.example to .env 
 
-setup all the environment variables including moralis ipfs key, app-wallet private key
+4. setup all the environment variables including moralis ipfs key, app-wallet private key
 & wallet address, mongodb url.
 
+5. 
 ```
 npm install
 
@@ -29,6 +39,9 @@ npm run start
 server would start on localhost:3000
 
 # front-end
+
+1. go into webapp folder
+
 ```
 cd webapp
 
@@ -43,6 +56,23 @@ Open [http://localhost:5173](http://localhost:5173) with your browser to see the
 
 # browser-extension
 
+1. go to extension folder
+
+```
+cd extension
+```
+
+2. build extension
+
+```
+npm run build
+```
+
+3. After Completing the build you can load that build (/dist folder) to Chrome Extension
+
+   Follow this link: https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked
+
+Ta-da You are good to go and explore Trustless Pass dApp!
 
 ![top](./docs/dashboard.png)
 

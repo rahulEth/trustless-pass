@@ -1,8 +1,8 @@
-# Trust Pass Extension
+# Trustless Pass Extension
 
-Extension to Get Your Credentials stored using Trust Pass.
+Extension to Get Your Credentials stored using Trustless Pass.
 
-## About Trust Pass
+## About Trustless Pass
 
 users can securely save/access their password, username to access any application on internet. No need to worry about credentials theft or to forget them, now you can secure your hundreds of username and password with your own wallet private key, you would have 100 % control of it
 
@@ -59,4 +59,4 @@ cd .. && cd api
 npm start
 ```
 
-Ta-da You are good to go and explore Trust pass Extension!
+Ta-da You are good to go and explore Trustless pass Extension!

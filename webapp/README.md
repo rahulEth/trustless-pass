@@ -1,8 +1,8 @@
-# Trust Pass Webapp
+# Trustless Pass Webapp
 
-Webapp to Save and Check Your Credentials to Trust Pass.
+Webapp to Save and Check Your Credentials to Trustless Pass.
 
-## About Trust Pass
+## About Trustless Pass
 
 users can securely save/access their password, username to access any application on internet. No need to worry about credentials theft or to forget them, now you can secure your hundreds of username and password with your own wallet private key, you would have 100 % control of it
 
