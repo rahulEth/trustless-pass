@@ -18,7 +18,7 @@ users can securely save/access their password, username to access any applicatio
 
 ## Local Development
 
-To run extension locally, you will need
+To run webapp locally, you will need
 
 - Node.js (v18 or above)
 - Chrome Browser Or Chromium based browser
