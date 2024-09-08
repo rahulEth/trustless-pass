@@ -14,16 +14,15 @@ nvm use v18.19.1
 ```
 cd api
 
-copy `.env.example` to `.env` 
+copy .env.example to .env 
 
 setup all the environment variables including moralis ipfs key, app-wallet private key
-& wallet address, mongodb url. 
+& wallet address, mongodb url.
 
 npm run start
 
-server would start on localhost:3000
-
 ```
+server would start on localhost:3000
 
 # front-end
 ```
@@ -33,9 +32,8 @@ npm run build
 
 npm run dev
 
-Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
-
 ```
+Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
 
 # browser-extension
 
