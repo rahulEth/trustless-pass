@@ -19,6 +19,8 @@ copy .env.example to .env
 setup all the environment variables including moralis ipfs key, app-wallet private key
 & wallet address, mongodb url.
 
+npm install
+
 npm run start
 
 ```
@@ -27,6 +29,8 @@ server would start on localhost:3000
 # front-end
 ```
 cd webapp
+
+npm install
 
 npm run build
 
