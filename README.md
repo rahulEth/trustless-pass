@@ -13,12 +13,14 @@ nvm use v18.19.1
 # back-end
 ```
 cd api
+```
 
 copy .env.example to .env 
 
 setup all the environment variables including moralis ipfs key, app-wallet private key
 & wallet address, mongodb url.
 
+```
 npm install
 
 npm run start
