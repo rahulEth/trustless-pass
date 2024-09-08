@@ -21,7 +21,9 @@ Trustless-Pass is a web app and browser extension designed to store and access u
 
 For example, when a user wants to log in to Amazon.com, our browser extension will prompt them to provide their signature to access and decrypt their Amazon.com credentials.
 
-![architecture](./docs/architecture.png)
+![architecture](./docs/trustless-pass.png)
+
+![architecture](./docs/trustless-pass-2.png)
 
 
 
