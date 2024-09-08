@@ -2,6 +2,44 @@
 
 A never-before-seen Web2 credentials management application. Store and access your credentials in a purely non-custodial and trustless way.
 
+## Getting Started
+
+First, set the correct Node.js version using `nvm` and run the development server:
+```bash
+nvm use v18.19.1
+
+```
+
+# back-end
+```
+cd api
+
+copy `.env.example` to `.env` 
+
+setup all the environment variables including moralis ipfs key, app-wallet private key
+& wallet address, mongodb url. 
+
+npm run start
+
+server would start on localhost:3000
+
+```
+
+# front-end
+```
+cd webapp
+
+npm run build
+
+npm run dev
+
+Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
+
+```
+
+# browser-extension
+
+
 ![top](./docs/dashboard.png)
 
 
@@ -9,10 +47,6 @@ A never-before-seen Web2 credentials management application. Store and access yo
 
 
 ![top](./docs/get-creds.png)
-
-
-## Demo App
-
 
 
 ## Description
